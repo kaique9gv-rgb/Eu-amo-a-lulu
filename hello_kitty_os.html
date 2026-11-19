@@ -1,0 +1,163 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HELLO KITTY OS 🎀</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@500;600;700&display=swap');
+:root{--pink:#ff6fae;--hot:#f04491;--soft:#fff0f7;--pale:#fff8fc;--rose:#ffd1e5;--ink:#7a3657;--line:#ffc0da;--white:#fff}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at 15% 10%,#fff 0 7%,transparent 28%),radial-gradient(circle at 90% 85%,#ffd9eb 0 8%,transparent 32%),linear-gradient(135deg,#ffe6f1,#fff7fb 48%,#ffd9eb);color:var(--ink);font-family:'Nunito',sans-serif;display:grid;place-items:center;padding:18px;overflow-x:hidden}
+body:before{content:"♡  ✿  ♡  ✧  ♡  ✿  ♡";position:fixed;inset:0;pointer-events:none;z-index:0;color:#f6a9cc;font-size:clamp(22px,4vw,42px);letter-spacing:24px;line-height:2.4;opacity:.17;word-break:break-all}
+.shell{position:relative;z-index:1;width:min(980px,96vw);padding:22px;border:3px solid #ffb6d5;border-radius:28px;background:#ffffffed;box-shadow:0 18px 55px #e77eae35,inset 0 0 0 6px #fff5fa;overflow:hidden}
+.shell:before{content:"";position:absolute;inset:9px;border:1px dashed #ffc2dc;border-radius:20px;pointer-events:none}
+.top,.foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;position:relative}
+.top{border-bottom:2px dotted var(--line);padding-bottom:13px}
+.brand{font:900 22px 'Quicksand';letter-spacing:1px;color:var(--hot)}
+.status,.kick{font-size:11px;font-weight:900;letter-spacing:1.5px;color:#df5795}
+h1{font:900 clamp(27px,5vw,43px) 'Quicksand';color:#e94f98;margin:10px 0}
+.sub,.hint{font-size:14px;line-height:1.65;color:#9a6480}
+.progress{display:flex;gap:7px;margin:17px 0}
+.step{height:9px;flex:1;background:#ffe1ee;border-radius:99px}
+.step.done{background:linear-gradient(90deg,#ff9bc5,#f04e98);box-shadow:0 2px 8px #f04e9850}
+.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+.panel{background:linear-gradient(145deg,#fffafd,#fff0f7);border:2px solid #ffd0e4;border-radius:20px;padding:17px;min-width:0;box-shadow:0 5px 18px #f6a8ca18}
+.pt{font-size:11px;font-weight:900;letter-spacing:1.4px;color:#e35b99;border-bottom:1px dashed #ffc1dc;padding-bottom:10px;margin-bottom:14px}
+.digits{font-size:clamp(30px,7vw,48px);letter-spacing:9px;color:#e84c98;text-align:center;padding:15px 0;text-shadow:0 3px 0 #ffd5e7}
+.timer{height:9px;background:#ffe0ed;border-radius:99px;overflow:hidden}
+.timer div{height:100%;background:linear-gradient(90deg,#ffb3d2,#ed4d98);border-radius:99px;transition:width .2s}
+button{font:900 14px 'Nunito';letter-spacing:.4px;padding:12px 17px;background:linear-gradient(135deg,#ff9fc8,#f45b9d);border:0;border-radius:999px;color:white;cursor:pointer;box-shadow:0 5px 0 #d94b8b45,0 8px 16px #ed6ba52b;transition:transform .15s,filter .15s}
+button:hover{transform:translateY(-2px);filter:saturate(1.1)}
+button:active{transform:translateY(2px);box-shadow:0 2px 0 #d94b8b45}
+button.alt{background:#fff;color:#e64f96;border:2px solid #ffacd0;box-shadow:none}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+input{width:100%;background:#fff;border:2px solid #ffc0da;border-radius:14px;color:#d9438d;padding:13px;font:800 20px 'Nunito';letter-spacing:6px;outline:none}
+input:focus{border-color:#ef5b9d;box-shadow:0 0 0 4px #ffd7e8}
+label{display:block;color:#b15e83;font-size:11px;font-weight:900;margin:12px 0 7px}
+.hidden{display:none!important}
+.log{font-size:12px;line-height:1.9;color:#a76d88;max-height:150px;overflow:hidden}
+.log div:before{content:"♡ ";color:#ef69a6}
+.foot{border-top:2px dotted var(--line);padding-top:12px;margin-top:18px;color:#c17a9c;font-size:10px;font-weight:900}
+#matrix{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;margin:14px auto;max-width:440px}
+.cell{padding:0;aspect-ratio:1;min-width:0;background:#fff;color:#d85b96;border:1px solid #ffc2dc;border-radius:10px;font:800 clamp(12px,3vw,18px) 'Nunito';letter-spacing:0;box-shadow:0 2px 5px #e990b21a}
+.cell.sel{background:#f45b9d;color:white;border-color:#ed4c96;box-shadow:0 0 0 3px #ffd4e6}
+.target{text-align:center;color:#e94f98;font-size:25px;font-weight:900;letter-spacing:8px;margin:10px}
+.overlay{position:fixed;inset:0;z-index:10;background:#fff0f7eF;display:grid;place-items:center;padding:14px;backdrop-filter:blur(8px)}
+.modal{width:min(680px,96vw);text-align:center;padding:24px;border:3px solid #ff9fc8;border-radius:28px;background:linear-gradient(145deg,#fff,#fff0f7);box-shadow:0 18px 65px #e77eae45}
+.alert{font:900 clamp(30px,8vw,54px) 'Quicksand';color:#e94f98}
+.warn{color:#a45d7f;font-size:14px;line-height:1.8}
+.scare{height:130px;display:grid;place-items:center}
+.face{font-size:74px;filter:drop-shadow(0 7px 6px #ef91bb55)}
+.popwall{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:12px}
+.pop{border:1px solid #ffc0da;background:#fff;color:#e75a9a;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800}
+.win{border-color:#ff9fc8;background:linear-gradient(145deg,#fff,#fff0f7)}
+.win h2{font:900 38px 'Quicksand';color:#e94f98}
+#files{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:15px}
+.filebtn{background:#fff;color:#d85b96;border:2px solid #ffd0e4;text-align:left;font:800 12px 'Nunito';padding:13px;letter-spacing:0;border-radius:14px;box-shadow:none}
+.filebtn small{display:block;color:#bf83a0;margin-top:6px;font-size:10px}
+.filebtn:hover{border-color:#f05b9e;color:#e34490}
+.whisper{color:#d46b9e;font-size:12px;min-height:18px;margin-top:10px}
+#finalTimer{font:900 34px 'Quicksand';color:#e94f98;text-align:center;letter-spacing:4px;margin:8px}
+.kitty-reward{position:fixed;inset:0;z-index:30;display:grid;place-items:center;pointer-events:none;overflow:hidden;background:#fff0f755;animation:rewardFade 2.8s forwards}
+.reward-card{position:relative;z-index:2;text-align:center;background:#fff;border:3px solid #ffadd0;border-radius:30px;padding:18px 30px;box-shadow:0 12px 50px #e65b9b45;animation:kittyPop .55s cubic-bezier(.2,1.5,.5,1) both}
+.reward-card strong{display:block;color:#e84c98;font:900 22px 'Quicksand';margin-top:6px}
+.reward-card small{color:#b66b8e;font-weight:800}
+.kitty-svg{width:150px;height:130px;display:block;margin:auto;animation:kittyBob .8s ease-in-out infinite alternate}
+.kiss-mark{position:absolute;right:18%;top:22%;font-size:42px;animation:kissFly .9s .35s both}
+.heart-rain{position:absolute;inset:0;overflow:hidden}
+.falling-heart{position:absolute;top:-50px;color:#f15b9e;animation:heartFall 2.5s linear forwards;filter:drop-shadow(0 3px 2px #f5a6c7)}
+@keyframes kittyPop{from{transform:scale(.3) rotate(-8deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+@keyframes kittyBob{to{transform:translateY(-7px) rotate(2deg)}}
+@keyframes kissFly{from{transform:translate(0,20px) scale(.3);opacity:0}to{transform:translate(40px,-25px) scale(1.2);opacity:1}}
+@keyframes heartFall{to{transform:translateY(115vh) rotate(360deg);opacity:0}}
+@keyframes rewardFade{0%,78%{opacity:1}100%{opacity:0}}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.shell{padding:14px}.panel{padding:13px}.brand{font-size:18px}#files{grid-template-columns:1fr}}
+</style></head><body><div class="shell"><div class="top"><div class="brand">HELLO KITTY OS 🎀</div><div class="status">♡ SISTEMA FOFO • NÍVEL 05</div></div><main><div class="kick">♡ MUNDO DA HELLO KITTY // ESTAÇÃO ROSA</div><h1>BEM-VINDO AO HELLO KITTY OS!</h1><p class="sub">Complete os desafios, ganhe beijinhos da Hello Kitty e encha a tela de corações! 🎀</p><div class="progress"><div class="step" id="p1"></div><div class="step" id="p2"></div><div class="step" id="p3"></div></div><div class="grid"><section class="panel"><div class="pt" id="stage">01 // IDENTIFICAÇÃO</div>
+<div id="start"><p class="hint">Seu passe cor-de-rosa está prontinho!<br>A Hello Kitty está esperando por você. 💗</p><button id="begin">COMEÇAR A BRINCADEIRA</button></div>
+<div id="memory" class="hidden"><p class="hint" id="memhint">MEMORIZE A SEQUÊNCIA.</p><div class="digits" id="seq"></div><div class="timer"><div id="bar"></div></div><p class="hint" id="count">MEMORIZE AGORA</p></div>
+<div id="answerbox" class="hidden"><p class="hint" id="prompt">Digite a sequência na ordem exata.</p><label for="answer">CÓDIGO DE ACESSO</label><input id="answer" inputmode="numeric" autocomplete="off"><div class="actions"><button id="submit">VALIDAR CÓDIGO</button></div></div>
+<div id="passed" class="hidden"><div class="digits">✓</div><p class="hint">CAMADA VALIDADA. Protocolo seguinte liberado.</p><button id="next">CONTINUAR</button></div>
+<div id="filesStage" class="hidden"><p class="hint">DESAFIO 04: encontre o arquivo com o nome indicado. A Hello Kitty acredita em você!</p><div class="target" id="fileTarget">RECUPERAR: projeto_aurora.enc</div><div id="files"></div><p class="whisper" id="whisper"></p></div>
+<div id="finalStage" class="hidden"><p class="hint">DESAFIO FINAL: memorize o código secreto e digite antes que o tempo acabe!</p><div class="digits" id="finalCode"></div><div class="timer"><div id="finalBar"></div></div><div id="finalTimer">00:08</div><label for="finalAnswer">CHAVE DE CONTENÇÃO</label><input id="finalAnswer" inputmode="numeric" autocomplete="off" maxlength="5"><div class="actions"><button id="finalSubmit">EXECUTAR ACESSO</button></div><p class="whisper" id="finalWhisper"></p></div>
+<div id="hunt" class="hidden"><p class="hint">DESAFIO 03: encontre a sequência no painel, em linha reta ou diagonal. Você consegue!</p><div class="target" id="target"></div><div id="matrix"></div><p class="hint" id="selnote">SELEÇÃO: 0 / 6</p><div class="actions"><button class="alt" id="clear">LIMPAR</button><button id="verify">VALIDAR</button></div></div>
+</section><aside class="panel"><div class="pt">CANTINHO DA HELLO KITTY</div><div class="log" id="log"><div>Bem-vinda ao cantinho rosa ♡</div><div>Laços e corações carregados</div><div>Hello Kitty está aqui para ajudar</div><div>Esperando sua primeira senha</div></div><div class="pt" style="margin-top:18px">STATUS DO SEU DIA</div><p class="hint">USUÁRIO: <span style="color:#e94f98">AMIGUINHO ♡</span><br>LOCAL: CASINHA ROSA<br>HUMOR: <b id="risk" style="color:#e94f98">FELIZ</b></p></aside></div><div class="foot"><span>HELLO KITTY OS • EDIÇÃO ROSA</span><span>FEITO COM ♡ E LAÇOS</span></div></main></div>
+
+<div id="kissReward" class="kitty-reward hidden" aria-hidden="true">
+  <div class="heart-rain" id="heartRain"></div>
+  <div class="reward-card">
+    <svg class="kitty-svg" viewBox="0 0 180 150" role="img" aria-label="Hello Kitty com laço vermelho">
+      <ellipse cx="90" cy="82" rx="58" ry="52" fill="#fff" stroke="#e9cbd8" stroke-width="3"/>
+      <path d="M46 47 Q24 14 15 33 Q8 52 45 61 M46 47 Q28 75 13 62 Q2 48 46 47" fill="#ef2947" stroke="#c91837" stroke-width="3"/>
+      <circle cx="43" cy="49" r="8" fill="#ffcf42" stroke="#d99b22" stroke-width="2"/>
+      <ellipse cx="68" cy="80" rx="5" ry="8" fill="#29232a"/>
+      <ellipse cx="112" cy="80" rx="5" ry="8" fill="#29232a"/>
+      <ellipse cx="90" cy="94" rx="7" ry="5" fill="#f5c63e"/>
+      <path d="M34 91 L59 94 M32 101 L59 101 M36 111 L61 107 M121 94 L146 91 M121 101 L148 101 M119 107 L144 111" stroke="#29232a" stroke-width="2.5" stroke-linecap="round"/>
+      <ellipse cx="56" cy="105" rx="10" ry="5" fill="#ffb3c9" opacity=".75"/>
+      <ellipse cx="124" cy="105" rx="10" ry="5" fill="#ffb3c9" opacity=".75"/>
+    </svg>
+    <div class="kiss-mark">💋</div>
+    <strong>UM BEIJINHO PRA VOCÊ!</strong>
+    <small>Você conseguiu! ♡</small>
+  </div>
+</div>
+
+<div class="overlay hidden" id="alarm"><div class="modal"><div class="alert">OPS! TENTE DE NOVO</div><p class="warn">Essa não era a senha certa! Não desista, a Hello Kitty está torcendo por você. 💗</p><div class="scare"><div class="face">🐱🎀</div></div><div class="popwall" id="popwall"></div><p class="warn">UM ERRINHO ACONTECE! TENTE MAIS UMA VEZ ♡</p><button id="retry">TENTAR NOVAMENTE</button></div></div>
+<div class="overlay hidden" id="win"><div class="modal win"><div class="kick">HELLO KITTY DIZ: MUITO BEM! ♡</div><h2>VOCÊ CONSEGUIU! 🎀</h2><p class="warn">Todos os desafios concluídos! Você ganhou muitos beijinhos e corações! 💗</p><button id="again">BRINCAR DE NOVO</button></div></div>
+<script>
+const $=x=>document.getElementById(x);let stage=0,code='',timer=null,ac=null,path=[],target='',board=[];
+function audio(){ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();return ac}
+function tone(f,d=.12,type='square',v=.04,t=0){try{let c=audio(),o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f,c.currentTime+t);g.gain.setValueAtTime(v,c.currentTime+t);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+t+d);o.connect(g);g.connect(c.destination);o.start(c.currentTime+t);o.stop(c.currentTime+t+d)}catch(e){}}
+function alarmSound(){tone(440,.12,'sine',.035);tone(330,.16,'sine',.025,.12)}
+function log(t){let d=document.createElement('div');d.textContent=t;$('log').prepend(d);while($('log').children.length>7)$('log').lastChild.remove()}
+function showKiss(){
+ const layer=$('kissReward'),rain=$('heartRain');rain.innerHTML='';
+ const hearts=['💗','💕','💖','💞','💘','♡','🎀'];
+ for(let i=0;i<34;i++){const h=document.createElement('span');h.className='falling-heart';h.textContent=hearts[Math.floor(Math.random()*hearts.length)];h.style.left=Math.random()*100+'%';h.style.fontSize=(18+Math.random()*24)+'px';h.style.animationDelay=(Math.random()*.55)+'s';h.style.animationDuration=(1.8+Math.random()*1.1)+'s';rain.append(h)}
+ layer.classList.remove('hidden');layer.setAttribute('aria-hidden','false');
+ tone(880,.12,'sine',.05);tone(1175,.18,'sine',.04,.12);tone(1568,.24,'sine',.035,.25);
+ clearTimeout(window.kittyRewardTimer);window.kittyRewardTimer=setTimeout(()=>{layer.classList.add('hidden');layer.setAttribute('aria-hidden','true')},2900);
+}
+function hide(){['start','memory','answerbox','passed','hunt','filesStage','finalStage'].forEach(x=>$(x).classList.add('hidden'))}
+function begin(){hide();$('stage').textContent=stage===0?'01 // SENHA DINÂMICA':'02 // AUTENTICAÇÃO EM DUAS ETAPAS';$('memory').classList.remove('hidden');let n=6,s=stage===0?3:2;code=Array.from({length:n},()=>Math.floor(Math.random()*10)).join('');$('memhint').textContent=stage===0?'MEMORIZE 6 DÍGITOS. VOCÊ TEM 3 SEGUNDOS.':'SEGUNDO FATOR: 6 DÍGITOS. VOCÊ TEM 2 SEGUNDOS.';$('seq').textContent=code;$('bar').style.width='100%';$('count').textContent='MEMORIZE AGORA';log('Preparando sua senha secreta ♡');tone(740,.1);let left=s;clearInterval(timer);timer=setInterval(()=>{left--;$('bar').style.width=left/s*100+'%';$('count').textContent='OCULTANDO EM '+left+'...';if(left<=0){clearInterval(timer);$('seq').textContent='• '.repeat(n);$('memory').classList.add('hidden');$('answerbox').classList.remove('hidden');$('answer').value='';$('answer').maxLength=n;$('answer').focus();$('prompt').textContent='Digite os '+n+' dígitos na ordem exata.';tone(300,.1)}},1000)}
+function passed(){showKiss();tone(950,.15,'sine');$('answerbox').classList.add('hidden');$('passed').classList.remove('hidden');$('p'+(stage+1)).classList.add('done');log('Senha correta! Hora do beijinho!');$('next').textContent=stage===0?'CONTINUAR PARA 2FA':'INICIAR VARREDURA NUMÉRICA'}
+function hunt(){hide();$('stage').textContent='03 // CAÇA-SEQUÊNCIA NUMÉRICA';$('hunt').classList.remove('hidden');$('p3').classList.add('done');target=Array.from({length:6},()=>Math.floor(Math.random()*10)).join('');$('target').textContent=target;path=[];let n=9;board=Array.from({length:n},()=>Array.from({length:n},()=>''+Math.floor(Math.random()*10)));let dirs=[[0,1],[1,0],[1,1],[-1,1],[0,-1],[-1,0],[-1,-1],[1,-1]],d=dirs[Math.floor(Math.random()*8)],r,c;do{r=Math.floor(Math.random()*n);c=Math.floor(Math.random()*n)}while(r+d[0]*5<0||r+d[0]*5>=n||c+d[1]*5<0||c+d[1]*5>=n);for(let i=0;i<6;i++)board[r+d[0]*i][c+d[1]*i]=target[i];$('matrix').innerHTML='';board.flat().forEach((v,i)=>{let b=document.createElement('button');b.className='cell';b.textContent=v;b.onclick=()=>pick(i);$('matrix').append(b)});$('selnote').textContent='SELEÇÃO: 0 / 6';log('Painel de números prontinho!')}
+function pick(i){if(path.includes(i)||path.length>=6)return;if(path.length){let a=path[path.length-1],dr=Math.floor(i/9)-Math.floor(a/9),dc=i%9-a%9;if(Math.max(Math.abs(dr),Math.abs(dc))!==1)return;if(path.length>1){let pr=Math.floor(path[1]/9)-Math.floor(path[0]/9),pc=path[1]%9-path[0]%9;if(dr!==pr||dc!==pc)return}}path.push(i);$('matrix').children[i].classList.add('sel');$('selnote').textContent='SELEÇÃO: '+path.length+' / 6';tone(520,.05,'sine',.025);if(path.length===6){let val=path.map(x=>board[Math.floor(x/9)][x%9]).join('');if(val!==target)setTimeout(fail,250);else{showKiss();openFiles()}}}
+function clearPath(){path.forEach(i=>$('matrix').children[i].classList.remove('sel'));path=[];$('selnote').textContent='SELEÇÃO: 0 / 6'}
+
+let ambient=null,ambientGain=null,whisperTimer=null,finalCode='',finalClock=null,finalLeft=8;
+function startAmbient(){
+ try{let c=audio();if(ambient)return;ambient=c.createOscillator();ambient.type='sine';ambient.frequency.value=48;ambientGain=c.createGain();ambientGain.gain.value=.012;ambient.connect(ambientGain);ambientGain.connect(c.destination);ambient.start();
+ let lfo=c.createOscillator(),lg=c.createGain();lfo.frequency.value=.17;lg.gain.value=.008;lfo.connect(lg);lg.connect(ambientGain.gain);lfo.start();
+ }catch(e){}
+}
+function whisper(){
+ const lines=['Você ouviu isso?','Não existe ninguém conectado nesta estação.','A câmera 03 está desligada.','Não olhe para a janela.','O sistema registrou uma segunda presença.','Você não deveria estar aqui.'];
+ $('whisper').textContent=lines[Math.floor(Math.random()*lines.length)];
+ tone(115+Math.random()*45,.35,'sine',.012);
+}
+function openFiles(){
+ hide();$('stage').textContent='04 // ARQUIVOS CONFIDENCIAIS';$('filesStage').classList.remove('hidden');
+ $('p3').classList.add('done');$('fileTarget').textContent='RECUPERAR: '+wantedFile;
+ $('files').innerHTML='';
+ let names=[wantedFile,'relatorio_funcionarios.tmp','camera_03_corrompida.dat','backup_sistema.enc','nao_abra_me.txt','registro_visitante.log'];
+ names.sort(()=>Math.random()-.5);
+ names.forEach(name=>{let b=document.createElement('button');b.className='filebtn';b.innerHTML='▣ '+name+'<small>ARQUIVO LOCAL // ENCRIPTADO</small>';b.onclick=()=>{if(name===wantedFile){showKiss();tone(780,.18,'sine');openFinal()}else{fail()}};$('files').append(b)});
+ $('whisper').textContent='';clearInterval(whisperTimer);whisperTimer=setInterval(whisper,8500);log('Pastinha secreta aberta!');
+}
+let wantedFile='projeto_aurora.enc';
+function openFinal(){
+ clearInterval(whisperTimer);hide();$('stage').textContent='05 // CONTENÇÃO FINAL';$('finalStage').classList.remove('hidden');
+ wantedFile='projeto_aurora.enc';finalCode=Array.from({length:5},()=>Math.floor(Math.random()*10)).join('');
+ $('finalCode').textContent=finalCode;$('finalAnswer').value='';$('finalWhisper').textContent='SINAL INSTÁVEL // NÃO CONFIE NO MONITOR';
+ $('finalTimer').textContent='MEMORIZE';$('finalBar').style.width='100%';startAmbient();document.body.classList.add('haunted');
+ tone(330,.6,'sawtooth',.035);let reveal=1.4;
+ setTimeout(()=>{$('finalCode').textContent='● ● ● ● ●';finalLeft=8;$('finalTimer').textContent='00:08';let start=Date.now();clearInterval(finalClock);finalClock=setInterval(()=>{let elapsed=(Date.now()-start)/1000;let remain=Math.max(0,8-elapsed);$('finalTimer').textContent='00:'+String(Math.ceil(remain)).padStart(2,'0');$('finalBar').style.width=(remain/8*100)+'%';if(remain<=0){clearInterval(finalClock);fail()}},100);$('finalAnswer').focus()},reveal*1000);
+ log('Último desafio! Você está quase lá!');tone(90,.8,'sawtooth',.04);
+}
+function win(){showKiss();clearInterval(finalClock);clearInterval(whisperTimer);document.body.classList.remove('haunted');$('finalStage').classList.add('hidden');$('hunt').classList.add('hidden');$('filesStage').classList.add('hidden');$('win').classList.remove('hidden');log('Todos os desafios concluídos com sucesso!');tone(1100,.4,'sine',.08);tone(1450,.3,'sine',.05,.2)}
+
+function fail(){clearInterval(timer);clearInterval(finalClock);clearInterval(whisperTimer);document.body.classList.remove('haunted');$('risk').textContent='TENTE DE NOVO';$('risk').style.color='#e94f98';$('alarm').classList.remove('hidden');$('popwall').innerHTML='';for(let i=0;i<12;i++){let e=document.createElement('span');e.className='pop';e.textContent=['QUASE! ♡','VOCÊ CONSEGUE!','MAIS UMA VEZ 🎀','NÃO DESISTA!'][i%4];$('popwall').append(e)}log('Ops! Vamos tentar outra vez.');alarmSound()}
+function reset(){clearInterval(timer);clearInterval(finalClock);clearInterval(whisperTimer);document.body.classList.remove('haunted');stage=0;path=[];document.body.classList.remove('danger');$('alarm').classList.add('hidden');$('win').classList.add('hidden');$('risk').textContent='BAIXO';$('risk').style.color='var(--g)';['p1','p2','p3'].forEach(x=>$(x).classList.remove('done'));hide();$('start').classList.remove('hidden');$('stage').textContent='01 // IDENTIFICAÇÃO';$('log').innerHTML='<div>Bem-vinda ao cantinho rosa ♡</div><div>Laços e corações carregados</div><div>Hello Kitty está aqui para ajudar</div>';tone(480,.1,'sine')}
+$('begin').onclick=begin;$('submit').onclick=()=>{$('answer').value===code?passed():fail()};$('answer').addEventListener('input',e=>e.target.value=e.target.value.replace(/\D/g,'').slice(0,code.length));$('answer').addEventListener('keydown',e=>{if(e.key==='Enter')$('submit').click()});$('next').onclick=()=>{if(stage===0){stage=1;begin()}else hunt()};$('clear').onclick=clearPath;$('verify').onclick=()=>{if(path.length!==6){tone(170,.1);return}if(path.map(i=>board[Math.floor(i/9)][i%9]).join('')===target)openFiles();else fail()};$('retry').onclick=reset;$('again').onclick=reset;
+$('finalSubmit').onclick=()=>{if($('finalAnswer').value===finalCode)win();else fail()};
+$('finalAnswer').addEventListener('input',e=>e.target.value=e.target.value.replace(/\\D/g,'').slice(0,5));
+$('finalAnswer').addEventListener('keydown',e=>{if(e.key==='Enter')$('finalSubmit').click()});
+
+</script></body></html>
